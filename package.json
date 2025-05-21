@@ -1,0 +1,35 @@
+{
+  "name": "ciborg",
+  "version": "1.0.0",
+  "description": "GitHub review bot for automated PR reviews",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "github",
+    "bot",
+    "review",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@octokit/rest": "^21.1.1",
+    "axios": "^1.9.0",
+    "chalk": "^4.1.2",
+    "dotenv": "^16.5.0",
+    "http-mitm-proxy": "^1.1.0",
+    "inquirer": "^8.2.6",
+    "terminal-image": "^3.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "standard": "^17.1.2"
+  }
+}

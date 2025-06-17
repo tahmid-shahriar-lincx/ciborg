@@ -83,5 +83,21 @@ module.exports = {
       default: 5,
       validate: input => input > 0 || 'Please enter a positive number'
     }
+  ],
+
+  promptForPageSpeedUrl: (defaultUrl) => [
+    {
+      type: 'input',
+      name: 'url',
+      message: 'Enter the URL to test (press Enter to use the default):',
+      default: defaultUrl,
+      validate: input => {
+        try {
+          return Boolean(new URL(input))
+        } catch (error) {
+          return 'Please enter a valid URL'
+        }
+      }
+    }
   ]
 }

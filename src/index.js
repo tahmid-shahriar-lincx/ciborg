@@ -197,10 +197,11 @@ async function runTests () {
         }
 
         const { numRuns } = await inquirer.prompt(prompts.promptForPageSpeedRuns)
+        const { url } = await inquirer.prompt(prompts.promptForPageSpeedUrl(prInfo.previewUrl))
 
-        console.log(chalk.blue(`\nRunning PageSpeed tests on: ${prInfo.previewUrl}`))
+        console.log(chalk.blue(`\nRunning PageSpeed tests on: ${url}`))
 
-        const { asciiTable, markdownTable } = await handlePerf(prInfo.previewUrl, numRuns)
+        const { asciiTable, markdownTable } = await handlePerf(url, numRuns)
         console.log(chalk.green('PageSpeed Test Results:'))
         console.log(asciiTable)
 

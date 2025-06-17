@@ -85,19 +85,19 @@ module.exports = {
     }
   ],
 
-  promptForPageSpeedUrl: (defaultUrl) => [
+  promptForPageSpeedUrl: (defaultUrl, changedHtmlFiles = []) => [
     {
-      type: 'input',
-      name: 'url',
-      message: 'Enter the URL to test (press Enter to use the default):',
-      default: defaultUrl,
-      validate: input => {
-        try {
-          return Boolean(new URL(input))
-        } catch (error) {
-          return 'Please enter a valid URL'
-        }
-      }
+      type: 'checkbox',
+      name: 'urls',
+      message: 'Select URLs to test with PageSpeed:',
+      choices: [
+        { name: `Base URL: ${defaultUrl}`, value: defaultUrl },
+        ...changedHtmlFiles.map(file => ({
+          name: `${file}: ${defaultUrl}/${file}`,
+          value: `${defaultUrl}/${file}`
+        }))
+      ],
+      validate: input => input.length > 0 || 'Please select at least one URL to test'
     }
   ]
 }

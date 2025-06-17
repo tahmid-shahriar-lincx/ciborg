@@ -197,18 +197,26 @@ async function runTests () {
         }
 
         const { numRuns } = await inquirer.prompt(prompts.promptForPageSpeedRuns)
-        const { url } = await inquirer.prompt(prompts.promptForPageSpeedUrl(prInfo.previewUrl))
+        const { urls } = await inquirer.prompt(prompts.promptForPageSpeedUrl(prInfo.previewUrl, changedHtmlFiles))
 
-        console.log(chalk.blue(`\nRunning PageSpeed tests on: ${url}`))
+        console.log(chalk.blue(`\nRunning PageSpeed tests on ${urls.length} URLs...`))
 
-        const { asciiTable, markdownTable } = await handlePerf(url, numRuns)
-        console.log(chalk.green('PageSpeed Test Results:'))
-        console.log(asciiTable)
+        const results = await handlePerf(urls, numRuns)
+        // Display results for each URL
+        for (const [url, { asciiTable }] of Object.entries(results)) {
+          console.log(chalk.green(`\nPageSpeed Test Results for ${url}:`))
+          console.log(asciiTable)
+        }
+
+        // Combine all markdown tables for PR comment
+        const combinedMarkdown = Object.entries(results)
+          .map(([url, { markdownTable }]) => `### PageSpeed Results for ${url}\n\n${markdownTable}`)
+          .join('\n\n')
 
         await handleTestResults({
           octokit,
           prInfo,
-          results: markdownTable,
+          results: combinedMarkdown,
           testType: 'PageSpeed'
         })
       }
